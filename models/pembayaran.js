@@ -1,0 +1,56 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class pembayaran extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      this.belongsTo(models.petugas,{
+        foreignKey: "id_petugas",
+        as: "petugas"
+      })
+      this.belongsTo(models.siswa,{
+        foreignKey: "nisn",
+        as: "siswa"
+      })
+      this.belongsTo(models.siswa,{
+        foreignKey: "id_spp",
+        as: "spp"
+      })
+    }
+  }
+  pembayaran.init({
+    id_pembayaran: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    id_petugas:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    nisn:{
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    tgl_bayar: DataTypes.DATE,
+    bulan_dibayar: DataTypes.STRING,
+    tahun_dibayar: DataTypes.STRING,
+    id_spp:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    jumlah_dibayar: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'pembayaran',
+    tableName: "pembayaran"
+  });
+  return pembayaran;
+};
